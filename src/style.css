@@ -1,4 +1,11 @@
-body{
-    overflow-x: hidden;
-    overflow-y: hidden;
+body {
+    overflow: hidden; /* Impede a rolagem da página */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove padding padrão */
+}
+
+canvas {
+    display: block; /* Garante que o canvas ocupe toda a largura da tela */
+    width: 100%; /* Garante que o canvas ocupe toda a largura da tela */
+    height: 100%; /* Garante que o canvas ocupe toda a altura da tela */
 }
