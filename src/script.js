@@ -70,23 +70,77 @@ const canvasEl = document.querySelector("canvas");
         };
 
         const ball = {
-            x: 100,
-            y: 20,
+            x: 0,
+            y: 0,
             r: 20,
             speed: 3,
+            directionX: 1,
+            directionY: 1,
+            _calcPosition: function(){
+                // Verifica se a bola atingiu a borda superior ou inferior do campo
+                if(this.x > field.w){
+                    if(
+                        this.y+this.r > rightPaddle.y &&this.y-this.r<rightPaddle.y + rightPaddle
+                    ){
+                        this._reverseX()
+                    }else{
+                        
+                    }
+                }
+                if (this.y + this.r >= field.h || this.y - this.r <= 0) {
+                    this._reverseY(); // Inverte a direção vertical
+                }
+                // Verifica se a bola atingiu a borda esquerda do campo
+                // Se sim, a bola passa direto (sem rebater)
+                if (this.x - this.r <= 0) {
+                    this.x = canvasEl.width / 2; // Reposiciona a bola no meio do campo
+                    this.y = canvasEl.height / 2;
+                    // Você pode adicionar aqui qualquer outra lógica desejada para lidar com a situação
+                }
+                // Verifica se a bola atingiu a borda direita do campo
+                // Se sim, a bola passa direto (sem rebater)
+                if (this.x + this.r >= field.w) {
+                    this.x = canvasEl.width / 2; // Reposiciona a bola no meio do campo
+                    this.y = canvasEl.height / 2;
+                    // Você pode adicionar aqui qualquer outra lógica desejada para lidar com a situação
+                }
+                // Verifica se a bola colidiu com a raquete esquerda
+                if (this.x - this.r <= leftPaddle.x + leftPaddle.w &&
+                    this.y + this.r >= leftPaddle.y &&
+                    this.y - this.r <= leftPaddle.y + leftPaddle.h) {
+                    this._reverseX(); // Inverte a direção horizontal
+                }
+                // Verifica se a bola colidiu com a raquete direita
+                if (this.x + this.r >= rightPaddle.x &&
+                    this.y + this.r >= rightPaddle.y &&
+                    this.y - this.r <= rightPaddle.y + rightPaddle.h) {
+                    this._reverseX(); // Inverte a direção horizontal
+                }
+            },
+            _reverseX: function(){
+                this.directionX *= -1;
+            },
+            _reverseY: function(){
+                this.directionY *= -1;
+            },
             _move: function(){
-                this.x += 1 * this.speed;
-                this.y += 1 * this.speed;
+                this.x += this.directionX * this.speed;
+                this.y += this.directionY * this.speed;
             },
             draw: function(){
                 canvasCtx.fillStyle = "#ffffff";
                 canvasCtx.beginPath();
                 canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
                 canvasCtx.fill();
-
+        
+                this._calcPosition();
                 this._move();
             }
         };
+        
+        
+        
+        
 
         function setup() {
             canvasEl.width = window.innerWidth;
