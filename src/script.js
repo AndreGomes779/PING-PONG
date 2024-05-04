@@ -74,7 +74,7 @@ const score = {
     },
     increaseComputer:function(){
         this.computer++;
-        if (this.human === 20 || this.computer === 20) {
+        if (this.human === 30 || this.computer === 30) {
             this.human = 0;
             this.computer = 0;
             ball.speed = 7; // Reinicia a velocidade da bola
